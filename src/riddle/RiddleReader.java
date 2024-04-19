@@ -9,6 +9,7 @@ import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Accesses the riddle API, brings one riddle at a time,
@@ -16,22 +17,31 @@ import java.util.ArrayList;
  */
 public class RiddleReader {
 
+    private ErrorLogger errorLogger;
+
+    public RiddleReader() {
+        errorLogger = new ErrorLogger();
+    }
+
     /**
      * Reads a riddle from the API and converts to a JSON object.
      * @return The JSON object, or null if an error occurs
      */
     public JSONObject readFromAPI() {
         try {
-            URL url = new URL("https://riddles-api.vercel.app/random");
+            URL url = new URL("https://riddles-api.vercel.app/random2");
             InputStreamReader is = new InputStreamReader(url.openStream());
             JSONParser parser = new JSONParser();
             JSONObject json = (JSONObject) parser.parse(is);
             return json;
         } catch (MalformedURLException e) {
+            errorLogger.error(new Date() + ", " + getClass().getSimpleName() + ", " + e.getMessage());
             return null;
         } catch (IOException e) {
+            errorLogger.error(new Date() + ", " + getClass().getSimpleName() + ", " + e.getMessage());
             return null;
         } catch (ParseException e) {
+            errorLogger.error(new Date() + ", " + getClass().getSimpleName() + ", " + e.getMessage());
             return null;
         }
     }

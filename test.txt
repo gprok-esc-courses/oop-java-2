@@ -1,0 +1,5 @@
+Hello File 
+Hello File again
+Hello File buffered
+Hello File with print writer
+Hello World using the DECORATOR Pattern

@@ -1,5 +1,6 @@
 package riddle;
 
+import java.util.Date;
 import java.util.Scanner;
 
 /**
@@ -68,6 +69,12 @@ public class CmdUI {
             }
             do {
                 game.startGame();
+                if(!game.isGameOK()) {
+                    ErrorLogger logger = new ErrorLogger();
+                    logger.error(new Date() + ", " + getClass().getSimpleName() + ", " + "Game failed because of API problem");
+                    System.out.println("Game failed because of API problem");
+                    System.exit(1);
+                }
                 for (int i = 0; i < game.getSize(); i++) {
                     nextRiddle();
                 }

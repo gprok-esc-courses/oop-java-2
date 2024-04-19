@@ -30,6 +30,10 @@ public class Game {
         database = new Database();
     }
 
+    public boolean isGameOK() {
+        return riddles != null && riddles.size() == size;
+    }
+
     /**
      * Starts a new riddle game by initializing all the necessary variables
      */
