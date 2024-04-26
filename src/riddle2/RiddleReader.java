@@ -1,4 +1,4 @@
-package riddle;
+package riddle2;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -17,10 +17,10 @@ import java.util.Date;
  */
 public class RiddleReader {
 
-    private ErrorLogger errorLogger;
+    private ArrayList<ErrorObserver> observers;
 
     public RiddleReader() {
-        errorLogger = new ErrorLogger();
+        observers = new ArrayList<>();
     }
 
     /**
@@ -35,14 +35,24 @@ public class RiddleReader {
             JSONObject json = (JSONObject) parser.parse(is);
             return json;
         } catch (MalformedURLException e) {
-            errorLogger.error(new Date() + ", " + getClass().getSimpleName() + ", " + e.getMessage());
+            error(new Date() + ", " + getClass().getSimpleName() + ", " + e.getMessage());
             return null;
         } catch (IOException e) {
-            errorLogger.error(new Date() + ", " + getClass().getSimpleName() + ", " + e.getMessage());
+            error(new Date() + ", " + getClass().getSimpleName() + ", " + e.getMessage());
             return null;
         } catch (ParseException e) {
-            errorLogger.error(new Date() + ", " + getClass().getSimpleName() + ", " + e.getMessage());
+            error(new Date() + ", " + getClass().getSimpleName() + ", " + e.getMessage());
             return null;
+        }
+    }
+
+    public void addErrorObserver(ErrorObserver obs) {
+        observers.add(obs);
+    }
+
+    public void error(String message) {
+        for(ErrorObserver e : observers) {
+            e.error(message);
         }
     }
 
